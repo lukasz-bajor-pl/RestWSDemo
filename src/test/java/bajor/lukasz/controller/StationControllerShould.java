@@ -1,0 +1,60 @@
+package bajor.lukasz.controller;
+
+import bajor.lukasz.Application;
+import bajor.lukasz.model.Station;
+import bajor.lukasz.model.dao.StationRepository;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.RestTemplate;
+
+import static org.junit.Assert.assertEquals;
+
+/**
+ * Created by lbajor on 2016-04-19.
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(Application.class)
+@WebIntegrationTest
+public class StationControllerShould {
+    @Value("${local.server.port}")
+    int port;
+
+    @Autowired
+    StationRepository repository;
+
+    @Before
+    public void beforTest() {
+        repository.save(new Station("DARTFORD"));
+        repository.save(new Station("DARTMOUTH"));
+        repository.save(new Station("TOWER HILL"));
+        repository.save(new Station("DERBY"));
+        repository.save(new Station("LIVERPOOL"));
+        repository.save(new Station("LIVERPOOL LIME STREET"));
+        repository.save(new Station("PADDINGTON"));
+        repository.save(new Station("EUSTON"));
+        repository.save(new Station("LONDON BRIDGE"));
+        repository.save(new Station("VICTORIA"));
+    }
+
+    private final RestTemplate restTemplate = new TestRestTemplate();
+
+    @Test
+    public void findDartfordAndDartmouthWhenLookingForDart() {
+        ResponseEntity<String> response = restTemplate.getForEntity(searchUrl("DART"), String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    private String searchUrl(final String name) {
+        return "http://localhost:" + port + "/stations/search/" + name;
+    }
+}

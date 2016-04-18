@@ -18,8 +18,7 @@ public class Station {
 
     protected Station() {}
 
-    public Station(long id, String name) {
-        this.id = id;
+    public Station(String name) {
         this.name = name;
     }
 

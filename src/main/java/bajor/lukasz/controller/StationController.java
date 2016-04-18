@@ -21,6 +21,6 @@ public class StationController {
 
     @RequestMapping("/search/{name}")
     public List<Station> searchStation(@PathVariable String name) {
-        return Arrays.asList(new Station(1, "Test"));
+        return Arrays.asList(new Station("Test"));
     }
 }
