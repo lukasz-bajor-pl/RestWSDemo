@@ -20,8 +20,8 @@ public class StationController {
     StationRepository repository;
 
     @RequestMapping("/search/{name}")
-    public List<Station> searchStation(@PathVariable String name) {
+    public Stations searchStation(@PathVariable String name) {
         List<Station> result = repository.findByNameLike("%" + name + "%");
-        return result;
+        return new Stations(result);
     }
 }

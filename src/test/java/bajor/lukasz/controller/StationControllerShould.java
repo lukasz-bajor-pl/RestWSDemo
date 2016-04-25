@@ -54,8 +54,21 @@ public class StationControllerShould {
         ResponseEntity<String> response = restTemplate.getForEntity(searchUrl("DART"), String.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertThat(response.getBody(), containsString("DARTFORD"));
+        assertThat(response.getBody(), containsString(cleanJson("{\n" +
+                "\"stations\": [\n" +
+                "{\n" +
+                "\"name\": \"DARTFORD\"\n" +
+                "},\n" +
+                "{\n" +
+                "\"name\": \"DARTMOUTH\"\n" +
+                "}\n" +
+                "]\n" +
+                "}")));
         assertThat(response.getBody(), containsString("DARTMOUTH"));
+    }
+
+    private String cleanJson(String json) {
+        return json.replace("\n", "").replace(" ", "");
     }
 
     private String searchUrl(final String name) {
