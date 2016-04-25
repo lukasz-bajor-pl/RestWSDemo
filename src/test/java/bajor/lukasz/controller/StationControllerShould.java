@@ -66,6 +66,23 @@ public class StationControllerShould {
                 "}")));
     }
 
+    @Test
+    public void findAllStationsOnSearchAll() {
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/stations/searchAll", String.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertThat(response.getBody(), containsString("DARTFORD"));
+        assertThat(response.getBody(), containsString("DARTMOUTH"));
+        assertThat(response.getBody(), containsString("TOWER HILL"));
+        assertThat(response.getBody(), containsString("DERBY"));
+        assertThat(response.getBody(), containsString("LIVERPOOL"));
+        assertThat(response.getBody(), containsString("LIVERPOOL LIME STREET"));
+        assertThat(response.getBody(), containsString("PADDINGTON"));
+        assertThat(response.getBody(), containsString("EUSTON"));
+        assertThat(response.getBody(), containsString("LONDON BRIDGE"));
+        assertThat(response.getBody(), containsString("VICTORIA"));
+    }
+
     private String cleanJson(String json) {
         return json.replace("\n", "").replace(" ", "");
     }
