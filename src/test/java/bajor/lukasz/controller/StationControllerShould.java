@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by lbajor on 2016-04-19.
@@ -52,6 +54,8 @@ public class StationControllerShould {
         ResponseEntity<String> response = restTemplate.getForEntity(searchUrl("DART"), String.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertThat(response.getBody(), containsString("DARTFORD"));
+        assertThat(response.getBody(), containsString("DARTMOUTH"));
     }
 
     private String searchUrl(final String name) {
