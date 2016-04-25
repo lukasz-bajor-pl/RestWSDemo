@@ -64,7 +64,6 @@ public class StationControllerShould {
                 "}\n" +
                 "]\n" +
                 "}")));
-        assertThat(response.getBody(), containsString("DARTMOUTH"));
     }
 
     private String cleanJson(String json) {
